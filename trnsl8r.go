@@ -37,7 +37,7 @@ type APIResponse struct {
 
 // urlTemplate is a format string used to construct the URL for the translation service.
 // It includes placeholders for the protocol, host, and port.
-var urlTemplate = "%v://%v:%d/trnsl8r/translate/"
+var urlTemplate = "%v://%v:%d/trnsl8r/%v/%v"
 
 func (t Response) String() string {
 	return t.Translated
@@ -79,9 +79,11 @@ func (s *Request) Get(subject string) (Response, error) {
 		return Response{Information: err.Error()}, err
 	}
 
-	// Construct the base URI
-	uriBase := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port)
-	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", subject, uriBase))
+	if s.origin == "" {
+		err := fmt.Errorf("No origin defined, and origin identifier is required.")
+		s.log(err.Error())
+		return Response{Information: err.Error()}, err
+	}
 
 	// Check if subject is defined
 	if subject == "" {
@@ -98,8 +100,8 @@ func (s *Request) Get(subject string) (Response, error) {
 	}
 
 	// Construct the full URL
-	url := uriBase + url.QueryEscape(subject)
-	s.log(fmt.Sprintf("Testing URL [%v]", url))
+	url := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, url.QueryEscape(subject))
+	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", subject, url))
 
 	// Send the request via a client
 	var client http.Client
