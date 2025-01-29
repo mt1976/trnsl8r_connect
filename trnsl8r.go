@@ -116,9 +116,20 @@ func (s *Request) Get(subject string) (Response, error) {
 
 	// Check if the response status is OK
 	if resp.StatusCode != http.StatusOK {
-		err := fmt.Errorf("Response not OK - %s - %d", resp.Status, resp.StatusCode)
+		bodyBytes, err := io.ReadAll(resp.Body)
+		if err != nil {
+			s.log(err.Error())
+			return Response{Information: err.Error()}, err
+		}
+		var reponse APIResponse
+		err = json.Unmarshal(bodyBytes, &reponse)
+		if err != nil {
+			s.log(err.Error())
+			return Response{Original: subject, Translated: subject, Information: err.Error()}, err
+		}
+		err = fmt.Errorf("[ERROR!] - Status=[%s] Reason=[%v]", resp.Status, reponse.Message)
 		s.log(err.Error())
-		return Response{Information: err.Error()}, err
+		return Response{Information: reponse.Message}, err
 	}
 
 	// Read the response body
