@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/mt1976/frantic-plum/id"
 )
 
 // Request represents a data source with its connection details and logging configuration.
@@ -203,7 +205,11 @@ func (s Request) WithPort(port int) Request {
 // Returns:
 // - Request: The updated Request instance.
 func (s Request) WithOriginOf(origin string) Request {
-	s.origin = origin
+	var err error
+	s.origin, err = id.GetUUIDv2WithPayload(origin)
+	if err != nil {
+		log.Fatal(err)
+	}
 	return s
 }
 
