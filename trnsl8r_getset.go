@@ -38,12 +38,12 @@ func (s Request) WithPort(port int) Request {
 	return s
 }
 
-// WithOriginOf sets the origin identifier for the Request.
+// FromOrigin sets the origin identifier for the Request.
 // Parameters:
 // - origin: The origin identifier for the source.
 // Returns:
 // - Request: The updated Request instance.
-func (s Request) WithOriginOf(origin string) Request {
+func (s Request) FromOrigin(origin string) Request {
 	var err error
 	s.origin, err = id.GetUUIDv2WithPayload(origin)
 	if err != nil {
