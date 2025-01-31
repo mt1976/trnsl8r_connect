@@ -157,7 +157,7 @@ func (s *Request) Get(subject string) (Response, error) {
 	translated.Information = ""
 
 	// Log the translation result
-	msg := fmt.Sprintf("Requested:[%v] Original:[%v] Translation:[%v] Information:[%v]", origSubject, translated.Original, translated.Translated, translated.Information)
+	msg := fmt.Sprintf("Original:[%v] Request:[%v] Translation:[%v] Information:[%v]", origSubject, translated.Original, translated.Translated, translated.Information)
 	s.log(msg)
 
 	return translated, nil
