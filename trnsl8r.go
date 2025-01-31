@@ -5,45 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
-	"net/url"
 
 	"github.com/mt1976/frantic-plum/html"
-	"github.com/mt1976/frantic-plum/id"
 )
-
-// Request represents a data source with its connection details and logging configuration.
-type Request struct {
-	protocol        string      // Protocol used by the source (e.g., HTTP, HTTPS).
-	host            string      // Host address of the source.
-	port            int         // Port number for the source connection.
-	origin          string      // Origin identifier for the source.
-	locale          string      // Locale identifier for the source. - Not used
-	customLogger    *log.Logger // Logger instance for logging activities.
-	isCustomLogger  bool        // Flag indicating if logging is enabled.
-	isLoggingActive bool        // Flag indicating if logging is currently active.
-}
-
-// Response represents the result of a translation operation.
-type Response struct {
-	Original    string `json:"original"`
-	Translated  string `json:"translated"`
-	Information string `json:"information"`
-}
-
-// APIResponse represents a generic response message.
-type APIResponse struct {
-	Message string `json:"message"`
-}
-
-// urlTemplate is a format string used to construct the URL for the translation service.
-// It includes placeholders for the protocol, host, and port.
-var urlTemplate = "%v://%v:%d/trnsl8r/%v/%v"
-
-func (t Response) String() string {
-	return t.Translated
-}
 
 // Get sends a request to the translation service to translate the given subject.
 // It constructs the URL using the protocol, host, and port defined in the Request struct.
@@ -60,46 +25,14 @@ func (t Response) String() string {
 // - Response: A struct containing the original message, translated message, and any additional information.
 // - error: An error if any issues occurred during the process.
 func (s *Request) Get(subject string) (Response, error) {
-	// Check if protocol is defined
-	if s.protocol == "" {
-		err := fmt.Errorf("no protocol defined")
+
+	// Validate the request
+	err := s.Validate(subject)
+	if err != nil {
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
 	}
 
-	// Check if host is defined
-	if s.host == "" {
-		err := fmt.Errorf("no host defined")
-		s.log(err.Error())
-		return Response{Information: err.Error()}, err
-	}
-
-	// Check if port is defined
-	if s.port == 0 {
-		err := fmt.Errorf("no port defined")
-		s.log(err.Error())
-		return Response{Information: err.Error()}, err
-	}
-
-	if s.origin == "" {
-		err := fmt.Errorf("no origin defined, and origin identifier is required.")
-		s.log(err.Error())
-		return Response{Information: err.Error()}, err
-	}
-
-	// Check if subject is defined
-	if subject == "" {
-		err := fmt.Errorf("no message to translate")
-		s.log(err.Error())
-		return Response{Information: err.Error()}, err
-	}
-
-	// // Check if subject contains invalid characters
-	// if strings.Contains(subject, "/") {
-	// 	err := fmt.Errorf("Message contains invalid characters")
-	// 	s.log(err.Error())
-	// 	return Response{Information: err.Error()}, err
-	// }
 	origSubject := subject
 	subject, _ = html.ToPathSafe(subject)
 	// Construct the full URL
@@ -163,138 +96,9 @@ func (s *Request) Get(subject string) (Response, error) {
 	return translated, nil
 }
 
-func ToPathSafe(s string) (string, error) {
-	r := url.PathEscape(s)
-	return r, nil
-}
-
-func FromPathSafe(s string) (string, error) {
-	r, err := url.PathUnescape(s)
-	if err != nil {
-		return "", err
-	}
-	return r, nil
-}
-
 // NewRequest creates a new Request instance with default values for logging configuration.
 // Returns:
 // - Request: A new Request instance with logging disabled.
 func NewRequest() Request {
 	return Request{isCustomLogger: false, isLoggingActive: true}
-}
-
-// WithProtocol sets the protocol for the Request.
-// Parameters:
-// - protocol: The protocol to be used (e.g., HTTP, HTTPS).
-// Returns:
-// - Request: The updated Request instance.
-func (s Request) WithProtocol(protocol string) Request {
-	s.protocol = protocol
-	return s
-}
-
-// WithHost sets the host for the Request.
-// Parameters:
-// - host: The host address of the source.
-// Returns:
-// - Request: The updated Request instance.
-func (s Request) WithHost(host string) Request {
-	s.host = host
-	return s
-}
-
-// WithPort sets the port for the Request.
-// Parameters:
-// - port: The port number for the source connection.
-// Returns:
-// - Request: The updated Request instance.
-func (s Request) WithPort(port int) Request {
-	s.port = port
-	return s
-}
-
-// WithOriginOf sets the origin identifier for the Request.
-// Parameters:
-// - origin: The origin identifier for the source.
-// Returns:
-// - Request: The updated Request instance.
-func (s Request) WithOriginOf(origin string) Request {
-	var err error
-	s.origin, err = id.GetUUIDv2WithPayload(origin)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return s
-}
-
-// WithLogger sets the logger for the Request and enables logging.
-// Parameters:
-// - logger: The logger instance for logging activities.
-// Returns:
-// - Request: The updated Request instance with logging enabled.
-func (s Request) WithLogger(logger *log.Logger) Request {
-	s.customLogger = logger
-	s.isCustomLogger = true
-	return s
-}
-
-// EnableLogging enables logging for the Request.
-// Returns:
-// - Request: The updated Request instance with logging active.
-func (s Request) EnableLogging() Request {
-	s.isLoggingActive = true
-	return s
-}
-
-// DisableLogging disables logging for the Request.
-// Returns:
-// - Request: The updated Request instance with logging inactive.
-func (s Request) DisableLogging() Request {
-	s.isLoggingActive = false
-	return s
-}
-
-// String constructs and returns the URL string for the Request.
-// Returns:
-// - string: The constructed URL string.
-func (s Request) String() string {
-	return fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port)
-}
-
-// log logs a message using the Request's logger if logging is enabled, otherwise logs to the default logger.
-// Parameters:
-// - message: The message to be logged.
-func (s Request) log(message string) {
-	if s.isLoggingActive {
-		if s.isCustomLogger {
-			s.customLogger.Println(message)
-		} else {
-			log.Println(message)
-		}
-	}
-}
-
-// Validate checks if the required fields of the Request are set.
-// Returns:
-// - error: An error if any required fields are missing.
-func (s Request) Validate() error {
-	if s.protocol == "" {
-		return fmt.Errorf("protocol is required")
-	}
-	if s.host == "" {
-		return fmt.Errorf("host is required")
-	}
-	if s.port == 0 {
-		return fmt.Errorf("port is required")
-	}
-	return nil
-}
-
-// Spew outputs the contents of the Request struct to the log.
-func (s Request) Spew() {
-	message := fmt.Sprintf(
-		"Request struct contents:\nProtocol: %s\nHost: %s\nPort: %d\nOrigin: %s\nLocale: %s\nLogger: %+v\nIsCustomLogger: %t\nIsLoggingActive: %t",
-		s.protocol, s.host, s.port, s.origin, s.locale, s.customLogger, s.isCustomLogger, s.isLoggingActive,
-	)
-	s.log(message)
 }
