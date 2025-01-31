@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
+	"os"
 
 	"github.com/mt1976/frantic-plum/html"
 )
@@ -36,12 +38,39 @@ func (s *Request) Get(subject string) (Response, error) {
 	origSubject := subject
 	subject, _ = html.ToPathSafe(subject)
 	// Construct the full URL
-	url := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, subject)
-	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, url))
+	base := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, subject)
+
+	xx, err := url.Parse(base)
+	if err != nil {
+		s.log(err.Error())
+		return Response{Information: err.Error()}, err
+	}
+	base = xx.String()
+
+	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, base))
+
+	q := xx.Query()
+
+	fmt.Printf("s.filters: %v\n", s.filters)
+	// Add filters to the URL
+	for _, filter := range s.filters {
+		fmt.Printf("filter: %v %v\n", filter.key, filter.value)
+		yy, err := html.ToPathSafe(filter.value)
+		if err != nil {
+			s.log(err.Error())
+			return Response{Information: err.Error()}, err
+		}
+		q.Add(filter.key, yy)
+	}
+	xx.RawQuery = q.Encode()
+
+	fmt.Printf("xx.String(): %v\n", xx.String())
+
+	os.Exit(0)
 
 	// Send the request via a client
 	var client http.Client
-	resp, err := client.Get(url)
+	resp, err := client.Get(base)
 	if err != nil {
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err

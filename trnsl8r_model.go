@@ -12,6 +12,7 @@ type Request struct {
 	customLogger    *log.Logger // Logger instance for logging activities.
 	isCustomLogger  bool        // Flag indicating if logging is enabled.
 	isLoggingActive bool        // Flag indicating if logging is currently active.
+	filters         []Filter
 }
 
 // Response represents the result of a translation operation.
@@ -31,10 +32,11 @@ type APIResponse struct {
 var urlTemplate = "%v://%v:%d/trnsl8r/%v/%v"
 
 type Filter struct {
-	field string
+	key   string
+	value string
 }
 
-var LOCALE = Filter{field: "locale"}
-var ORIGIN = Filter{field: "origin"}
+var LOCALE = Filter{key: "locale"}
+var ORIGIN = Filter{key: "origin"}
 
 var filters = []Filter{LOCALE, ORIGIN}

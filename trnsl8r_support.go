@@ -55,8 +55,8 @@ func (s Request) Validate(subject string) error {
 // Spew outputs the contents of the Request struct to the log.
 func (s Request) Spew() {
 	message := fmt.Sprintf(
-		"Request struct contents:\nProtocol: %s\nHost: %s\nPort: %d\nOrigin: %s\nLocale: %s\nLogger: %+v\nIsCustomLogger: %t\nIsLoggingActive: %t",
-		s.protocol, s.host, s.port, s.origin, s.locale, s.customLogger, s.isCustomLogger, s.isLoggingActive,
+		"Request struct contents:\nProtocol: %s\nHost: %s\nPort: %d\nOrigin: %s\nLocale: %s\nLogger: %+v\nIsCustomLogger: %t\nIsLoggingActive: %t \nFilters: %v",
+		s.protocol, s.host, s.port, s.origin, s.locale, s.customLogger, s.isCustomLogger, s.isLoggingActive, s.filters,
 	)
 	s.log(message)
 }

@@ -85,5 +85,7 @@ func (s Request) WithFilter(filter Filter, value string) (Request, error) {
 		return s, fmt.Errorf("%v is not a invalid filter, valid filters are %v", filter, filters)
 	}
 
+	s.filters = append(s.filters, Filter{key: filter.key, value: value})
+
 	return s, nil
 }
