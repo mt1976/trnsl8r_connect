@@ -6,6 +6,8 @@ github.com/mt1976/frantic-plum v0.0.6 h1:6umLOfFRdysKqofGKQOVEyDuFOwGPVQH5s4R7lg
 github.com/mt1976/frantic-plum v0.0.6/go.mod h1:0aZ8YOrZ0YfjMdOwevB8zI8+lFLd+5zQGIafiu5Fh/k=
 github.com/mt1976/frantic-plum v0.0.7 h1:OY+wlu2wuWGHjEgSfHCWgGwrJDpXr2/WJwSk0gLQW9o=
 github.com/mt1976/frantic-plum v0.0.7/go.mod h1:0aZ8YOrZ0YfjMdOwevB8zI8+lFLd+5zQGIafiu5Fh/k=
+github.com/mt1976/frantic-plum v0.0.9 h1:TRYjbdcK5afx8d5LwOwDq4nI9YCPuhGNZt7A5zbdrE8=
+github.com/mt1976/frantic-plum v0.0.9/go.mod h1:0aZ8YOrZ0YfjMdOwevB8zI8+lFLd+5zQGIafiu5Fh/k=
 github.com/segmentio/ksuid v1.0.4 h1:sBo2BdShXjmcugAMwjugoGUdUV0pcxY5mW4xKRn3v4c=
 github.com/segmentio/ksuid v1.0.4/go.mod h1:/XUiZBD3kVx5SmUOl55voK5yeAbBNNIed+2O73XgrPE=
 golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8 h1:yqrTHse8TCMW1M1ZCP+VAR/l0kKxwaAIqN/il7x4voA=

@@ -8,8 +8,8 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"strings"
 
+	"github.com/mt1976/frantic-plum/html"
 	"github.com/mt1976/frantic-plum/id"
 )
 
@@ -94,15 +94,15 @@ func (s *Request) Get(subject string) (Response, error) {
 		return Response{Information: err.Error()}, err
 	}
 
-	// Check if subject contains invalid characters
-	if strings.Contains(subject, "/") {
-		err := fmt.Errorf("Message contains invalid characters")
-		s.log(err.Error())
-		return Response{Information: err.Error()}, err
-	}
-
+	// // Check if subject contains invalid characters
+	// if strings.Contains(subject, "/") {
+	// 	err := fmt.Errorf("Message contains invalid characters")
+	// 	s.log(err.Error())
+	// 	return Response{Information: err.Error()}, err
+	// }
+	subject, _ = html.ToPathSafe(subject)
 	// Construct the full URL
-	url := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, url.QueryEscape(subject))
+	url := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, url.PathEscape(subject))
 	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", subject, url))
 
 	// Send the request via a client
@@ -160,6 +160,19 @@ func (s *Request) Get(subject string) (Response, error) {
 	s.log(msg)
 
 	return translated, nil
+}
+
+func ToPathSafe(s string) (string, error) {
+	r := url.PathEscape(s)
+	return r, nil
+}
+
+func FromPathSafe(s string) (string, error) {
+	r, err := url.PathUnescape(s)
+	if err != nil {
+		return "", err
+	}
+	return r, nil
 }
 
 // NewRequest creates a new Request instance with default values for logging configuration.
