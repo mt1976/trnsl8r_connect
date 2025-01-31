@@ -62,34 +62,34 @@ func (t Response) String() string {
 func (s *Request) Get(subject string) (Response, error) {
 	// Check if protocol is defined
 	if s.protocol == "" {
-		err := fmt.Errorf("No protocol defined")
+		err := fmt.Errorf("no protocol defined")
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
 	}
 
 	// Check if host is defined
 	if s.host == "" {
-		err := fmt.Errorf("No host defined")
+		err := fmt.Errorf("no host defined")
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
 	}
 
 	// Check if port is defined
 	if s.port == 0 {
-		err := fmt.Errorf("No port defined")
+		err := fmt.Errorf("no port defined")
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
 	}
 
 	if s.origin == "" {
-		err := fmt.Errorf("No origin defined, and origin identifier is required.")
+		err := fmt.Errorf("no origin defined, and origin identifier is required.")
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
 	}
 
 	// Check if subject is defined
 	if subject == "" {
-		err := fmt.Errorf("No message to translate")
+		err := fmt.Errorf("no message to translate")
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
 	}
@@ -100,10 +100,11 @@ func (s *Request) Get(subject string) (Response, error) {
 	// 	s.log(err.Error())
 	// 	return Response{Information: err.Error()}, err
 	// }
+	origSubject := subject
 	subject, _ = html.ToPathSafe(subject)
 	// Construct the full URL
-	url := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, url.PathEscape(subject))
-	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", subject, url))
+	url := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, subject)
+	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, url))
 
 	// Send the request via a client
 	var client http.Client
@@ -156,7 +157,7 @@ func (s *Request) Get(subject string) (Response, error) {
 	translated.Information = ""
 
 	// Log the translation result
-	msg := fmt.Sprintf("Original:{{%v}} Translation:{{%v}} Information:{{%v}}", translated.Original, translated.Translated, translated.Information)
+	msg := fmt.Sprintf("Requested:[%v] Original:[%v] Translation:[%v] Information:[%v]", origSubject, translated.Original, translated.Translated, translated.Information)
 	s.log(msg)
 
 	return translated, nil
