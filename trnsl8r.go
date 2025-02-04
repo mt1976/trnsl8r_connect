@@ -7,7 +7,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"os"
 
 	"github.com/mt1976/frantic-plum/html"
 )
@@ -64,9 +63,9 @@ func (s *Request) Get(subject string) (Response, error) {
 	}
 	xx.RawQuery = q.Encode()
 
-	fmt.Printf("xx.String(): %v\n", xx.String())
+	//fmt.Printf("xx.String(): %v\n", xx.String())
 
-	os.Exit(0)
+	//os.Exit(0)
 
 	// Send the request via a client
 	var client http.Client
