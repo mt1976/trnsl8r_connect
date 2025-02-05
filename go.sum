@@ -2,6 +2,8 @@ github.com/BurntSushi/toml v1.4.0 h1:kuoIxZQy2WRRk1pttg9asf+WVv6tWQuBNVmK8+nqPr0
 github.com/BurntSushi/toml v1.4.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
 github.com/mt1976/frantic-plum v0.1.3 h1:AiO+CLBPag0ibRdaTLgyLusMYNr94hxCI+zi1N0mVX0=
 github.com/mt1976/frantic-plum v0.1.3/go.mod h1:uxQNdQv2CcLfsqKGEseBppACiEVn0N1HDrYsnIZh5X0=
+github.com/mt1976/frantic-plum v0.1.5 h1:thzgs9gkGLocHx6CreHftyD5pV0kjMnprxtX0WonItg=
+github.com/mt1976/frantic-plum v0.1.5/go.mod h1:uxQNdQv2CcLfsqKGEseBppACiEVn0N1HDrYsnIZh5X0=
 github.com/segmentio/ksuid v1.0.4 h1:sBo2BdShXjmcugAMwjugoGUdUV0pcxY5mW4xKRn3v4c=
 github.com/segmentio/ksuid v1.0.4/go.mod h1:/XUiZBD3kVx5SmUOl55voK5yeAbBNNIed+2O73XgrPE=
 golang.org/x/exp v0.0.0-20250128182459-e0ece0dbea4c h1:KL/ZBHXgKGVmuZBZ01Lt57yE5ws8ZPSkkihmEyq7FXc=
