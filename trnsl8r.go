@@ -50,7 +50,7 @@ func (s *Request) Get(subject string) (Response, error) {
 
 	q := xx.Query()
 
-	fmt.Printf("s.filters: %v\n", s.filters)
+	//fmt.Printf("s.filters: %v\n", s.filters)
 	// Add filters to the URL
 	for _, filter := range s.filters {
 		//fmt.Printf("filter: %v %v\n", filter.key, filter.value)
