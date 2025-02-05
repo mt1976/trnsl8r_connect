@@ -53,7 +53,7 @@ func (s *Request) Get(subject string) (Response, error) {
 	fmt.Printf("s.filters: %v\n", s.filters)
 	// Add filters to the URL
 	for _, filter := range s.filters {
-		fmt.Printf("filter: %v %v\n", filter.key, filter.value)
+		//fmt.Printf("filter: %v %v\n", filter.key, filter.value)
 		yy, err := html.ToPathSafe(filter.value)
 		if err != nil {
 			s.log(err.Error())
