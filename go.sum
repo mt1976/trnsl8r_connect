@@ -8,9 +8,13 @@ github.com/mt1976/frantic-plum v1.0.0 h1:bWlDcXru3uO4n4rfLVcXspHIwDNt6CFgrNMQIgA
 github.com/mt1976/frantic-plum v1.0.0/go.mod h1:uxQNdQv2CcLfsqKGEseBppACiEVn0N1HDrYsnIZh5X0=
 github.com/mt1976/frantic-plum v1.0.1 h1:zWnsu+RCjZSvggguQAyBIwHEaT491/bTV2+Jotmxotk=
 github.com/mt1976/frantic-plum v1.0.1/go.mod h1:uxQNdQv2CcLfsqKGEseBppACiEVn0N1HDrYsnIZh5X0=
+github.com/mt1976/frantic-plum v1.1.1 h1:gcoUZ5UOcA26zRqo1dkr5vqUc6Pw/QE433PkVihLz+U=
+github.com/mt1976/frantic-plum v1.1.1/go.mod h1:uxQNdQv2CcLfsqKGEseBppACiEVn0N1HDrYsnIZh5X0=
 github.com/segmentio/ksuid v1.0.4 h1:sBo2BdShXjmcugAMwjugoGUdUV0pcxY5mW4xKRn3v4c=
 github.com/segmentio/ksuid v1.0.4/go.mod h1:/XUiZBD3kVx5SmUOl55voK5yeAbBNNIed+2O73XgrPE=
 golang.org/x/exp v0.0.0-20250128182459-e0ece0dbea4c h1:KL/ZBHXgKGVmuZBZ01Lt57yE5ws8ZPSkkihmEyq7FXc=
 golang.org/x/exp v0.0.0-20250128182459-e0ece0dbea4c/go.mod h1:tujkw807nyEEAamNbDrEGzRav+ilXA7PCRAd6xsmwiU=
+golang.org/x/exp v0.0.0-20250207012021-f9890c6ad9f3 h1:qNgPs5exUA+G0C96DrPwNrvLSj7GT/9D+3WMWUcUg34=
+golang.org/x/exp v0.0.0-20250207012021-f9890c6ad9f3/go.mod h1:tujkw807nyEEAamNbDrEGzRav+ilXA7PCRAd6xsmwiU=
 gopkg.in/natefinch/lumberjack.v2 v2.2.1 h1:bBRl1b0OH9s/DuPhuXpNl+VtCaJXFZ5/uEFST95x9zc=
 gopkg.in/natefinch/lumberjack.v2 v2.2.1/go.mod h1:YD8tP3GAjkrDg1eZH7EGmyESg/lsYskCTPBJVb9jqSc=
