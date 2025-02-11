@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/mt1976/frantic-plum/html"
+	"github.com/mt1976/frantic-core/html"
 )
 
 // Get sends a request to the translation service to translate the given subject.

@@ -5,7 +5,7 @@ import (
 	"log"
 	"slices"
 
-	"github.com/mt1976/frantic-plum/id"
+	"github.com/mt1976/frantic-core/id"
 )
 
 // WithProtocol sets the protocol for the Request.
