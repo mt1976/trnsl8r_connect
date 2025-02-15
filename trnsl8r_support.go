@@ -3,6 +3,8 @@ package trnsl8r
 import (
 	"fmt"
 	"log"
+
+	"github.com/mt1976/frantic-core/commonErrors"
 )
 
 // String constructs and returns the URL string for the Request.
@@ -32,22 +34,22 @@ func (s Request) log(message string) {
 // Validate checks if the required fields of the Request are set.
 // Returns:
 // - error: An error if any required fields are missing.
-func (s Request) Validate(subject string) error {
+func (s Request) Validate(message string) error {
 	if s.protocol == "" {
-		return fmt.Errorf("protocol is required")
+		return commonErrors.ErrProtocolIsRequired
 	}
 	if s.host == "" {
-		return fmt.Errorf("host is required")
+		return commonErrors.ErrHostIsRequired
 	}
 	if s.port == 0 {
-		return fmt.Errorf("port is required")
+		return commonErrors.ErrPortIsRequired
 	}
 	if s.origin == "" {
-		return fmt.Errorf("no origin defined, and origin identifier is required.")
+		return commonErrors.ErrOriginIsRequired
 	}
 	// Check if subject is defined
-	if subject == "" {
-		return fmt.Errorf("no message to translate")
+	if message == "" {
+		return commonErrors.ErrNoMessageToTranslate
 	}
 	return nil
 }

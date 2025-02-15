@@ -1,11 +1,12 @@
 package trnsl8r
 
 import (
-	"fmt"
 	"log"
 	"slices"
 
+	"github.com/mt1976/frantic-core/commonErrors"
 	"github.com/mt1976/frantic-core/id"
+	"github.com/mt1976/frantic-core/logger"
 )
 
 // WithProtocol sets the protocol for the Request.
@@ -14,6 +15,9 @@ import (
 // Returns:
 // - Request: The updated Request instance.
 func (s Request) WithProtocol(protocol string) Request {
+	if protocol == "" {
+		logger.ErrorLogger.Fatal(commonErrors.ErrProtocolIsRequired)
+	}
 	s.protocol = protocol
 	return s
 }
@@ -24,6 +28,9 @@ func (s Request) WithProtocol(protocol string) Request {
 // Returns:
 // - Request: The updated Request instance.
 func (s Request) WithHost(host string) Request {
+	if host == "" {
+		logger.ErrorLogger.Fatal(commonErrors.ErrHostIsRequired)
+	}
 	s.host = host
 	return s
 }
@@ -34,6 +41,9 @@ func (s Request) WithHost(host string) Request {
 // Returns:
 // - Request: The updated Request instance.
 func (s Request) WithPort(port int) Request {
+	if port == 0 {
+		logger.ErrorLogger.Fatal(commonErrors.ErrPortIsRequired)
+	}
 	s.port = port
 	return s
 }
@@ -47,7 +57,7 @@ func (s Request) FromOrigin(origin string) Request {
 	var err error
 	s.origin, err = id.GetUUIDv2WithPayload(origin)
 	if err != nil {
-		log.Fatal(err)
+		logger.ErrorLogger.Fatal(err)
 	}
 	return s
 }
@@ -82,7 +92,7 @@ func (s Request) DisableLogging() Request {
 func (s Request) WithFilter(filter Filter, value string) (Request, error) {
 
 	if !slices.Contains(filters, filter) {
-		return s, fmt.Errorf("%v is not a invalid filter, valid filters are %v", filter, filters)
+		return s, commonErrors.WrapInvalidFilterError(nil, filter.key)
 	}
 
 	s.filters = append(s.filters, Filter{key: filter.key, value: value})

@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/mt1976/frantic-core/commonErrors"
 	"github.com/mt1976/frantic-core/html"
 )
 
@@ -91,7 +92,9 @@ func (s *Request) Get(subject string) (Response, error) {
 			s.log(err.Error())
 			return Response{Original: subject, Translated: subject, Information: err.Error()}, err
 		}
-		err = fmt.Errorf("[ERROR!] - Status=[%s] Reason=[%v]", resp.Status, reponse.Message)
+
+		//err = commonErrors.WrapError(fmt.Errorf("[ERROR!] - Status=[%s] Reason=[%v]", resp.Status, reponse.Message))
+		err = commonErrors.WrapInvalidHttpReturnStatusWithMessageError(resp.Status, reponse.Message)
 		s.log(err.Error())
 		return Response{Information: reponse.Message}, err
 	}
