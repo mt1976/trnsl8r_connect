@@ -9,7 +9,7 @@ import (
 	"net/url"
 
 	"github.com/mt1976/frantic-core/commonErrors"
-	"github.com/mt1976/frantic-core/html"
+	html "github.com/mt1976/frantic-core/htmlHelpers"
 )
 
 // Get sends a request to the translation service to translate the given subject.

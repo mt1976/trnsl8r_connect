@@ -5,8 +5,8 @@ import (
 	"slices"
 
 	"github.com/mt1976/frantic-core/commonErrors"
-	"github.com/mt1976/frantic-core/id"
-	"github.com/mt1976/frantic-core/logger"
+	id "github.com/mt1976/frantic-core/idHelpers"
+	logger "github.com/mt1976/frantic-core/logHandler"
 )
 
 // WithProtocol sets the protocol for the Request.
