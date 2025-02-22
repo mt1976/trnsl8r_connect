@@ -31,6 +31,20 @@ func (s Request) log(message string) {
 	}
 }
 
+// log logs a message using the Request's logger if logging is enabled, otherwise logs to the default logger.
+// Parameters:
+// - message: The message to be logged.
+func (s Request) logError(message error) {
+	if s.isLoggingActive {
+		if s.isCustomLogger {
+			s.customLogger.Panicln(message.Error())
+		} else {
+			log.Println("[ERROR]" + message.Error())
+		}
+		panic(message)
+	}
+}
+
 // Validate checks if the required fields of the Request are set.
 // Returns:
 // - error: An error if any required fields are missing.

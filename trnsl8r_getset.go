@@ -5,8 +5,7 @@ import (
 	"slices"
 
 	"github.com/mt1976/frantic-core/commonErrors"
-	id "github.com/mt1976/frantic-core/idHelpers"
-	logger "github.com/mt1976/frantic-core/logHandler"
+	"github.com/mt1976/frantic-core/idHelpers"
 )
 
 // WithProtocol sets the protocol for the Request.
@@ -16,7 +15,7 @@ import (
 // - Request: The updated Request instance.
 func (s Request) WithProtocol(protocol string) Request {
 	if protocol == "" {
-		logger.ErrorLogger.Fatal(commonErrors.ErrProtocolIsRequired)
+		s.logError(commonErrors.ErrProtocolIsRequired)
 	}
 	s.protocol = protocol
 	return s
@@ -29,7 +28,7 @@ func (s Request) WithProtocol(protocol string) Request {
 // - Request: The updated Request instance.
 func (s Request) WithHost(host string) Request {
 	if host == "" {
-		logger.ErrorLogger.Fatal(commonErrors.ErrHostIsRequired)
+		s.logError(commonErrors.ErrHostIsRequired)
 	}
 	s.host = host
 	return s
@@ -42,7 +41,7 @@ func (s Request) WithHost(host string) Request {
 // - Request: The updated Request instance.
 func (s Request) WithPort(port int) Request {
 	if port == 0 {
-		logger.ErrorLogger.Fatal(commonErrors.ErrPortIsRequired)
+		s.logError(commonErrors.ErrPortIsRequired)
 	}
 	s.port = port
 	return s
@@ -55,9 +54,9 @@ func (s Request) WithPort(port int) Request {
 // - Request: The updated Request instance.
 func (s Request) FromOrigin(origin string) Request {
 	var err error
-	s.origin, err = id.GetUUIDv2WithPayload(origin)
+	s.origin, err = idHelpers.GetUUIDv2WithPayload(origin)
 	if err != nil {
-		logger.ErrorLogger.Fatal(err)
+		s.logError(err)
 	}
 	return s
 }

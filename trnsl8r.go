@@ -9,7 +9,7 @@ import (
 	"net/url"
 
 	"github.com/mt1976/frantic-core/commonErrors"
-	html "github.com/mt1976/frantic-core/htmlHelpers"
+	"github.com/mt1976/frantic-core/htmlHelpers"
 )
 
 // Get sends a request to the translation service to translate the given subject.
@@ -36,7 +36,7 @@ func (s *Request) Get(subject string) (Response, error) {
 	}
 
 	origSubject := subject
-	subject, _ = html.ToPathSafe(subject)
+	subject, _ = htmlHelpers.ToPathSafe(subject)
 	// Construct the full URL
 	base := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, subject)
 
@@ -55,7 +55,7 @@ func (s *Request) Get(subject string) (Response, error) {
 	// Add filters to the URL
 	for _, filter := range s.filters {
 		//fmt.Printf("filter: %v %v\n", filter.key, filter.value)
-		yy, err := html.ToPathSafe(filter.value)
+		yy, err := htmlHelpers.ToPathSafe(filter.value)
 		if err != nil {
 			s.log(err.Error())
 			return Response{Information: err.Error()}, err
