@@ -2,6 +2,8 @@ github.com/BurntSushi/toml v1.4.0 h1:kuoIxZQy2WRRk1pttg9asf+WVv6tWQuBNVmK8+nqPr0
 github.com/BurntSushi/toml v1.4.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
 github.com/mt1976/frantic-core v1.2.36 h1:XfOY960093JyoKTusSV90ys1WXkPtOpDlx1MKul0Chs=
 github.com/mt1976/frantic-core v1.2.36/go.mod h1:guMRebxQK2q+p09BmKtVBPk0EdLauHD2QEdqRFVlIv0=
+github.com/mt1976/frantic-core v1.2.39 h1:Rv8hG3/66Nk5CmPM4sWL/SAnAPcWsHwRrmjWWobjDEI=
+github.com/mt1976/frantic-core v1.2.39/go.mod h1:guMRebxQK2q+p09BmKtVBPk0EdLauHD2QEdqRFVlIv0=
 github.com/segmentio/ksuid v1.0.4 h1:sBo2BdShXjmcugAMwjugoGUdUV0pcxY5mW4xKRn3v4c=
 github.com/segmentio/ksuid v1.0.4/go.mod h1:/XUiZBD3kVx5SmUOl55voK5yeAbBNNIed+2O73XgrPE=
 golang.org/x/crypto v0.34.0 h1:+/C6tk6rf/+t5DhUketUbD1aNGqiSX3j15Z6xuIDlBA=
