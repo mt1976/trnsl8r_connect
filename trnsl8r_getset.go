@@ -98,3 +98,9 @@ func (s Request) WithFilter(filter Filter, value string) (Request, error) {
 
 	return s, nil
 }
+
+func (s Request) WithLocale(locale string) (Request, error) {
+	var err error
+	s, err = s.WithFilter(LOCALE,value)
+	return s, err
+}
