@@ -147,8 +147,6 @@ func (s Request) GetLocales() (LocaleResponse, error) {
 
 	s.log(fmt.Sprintf("Request to fetch valid locales [%v]", xx.String()))
 
-	//os.Exit(0)
-
 	// Send the request via a client
 	var client http.Client
 	resp, err := client.Get(xx.String())
@@ -176,7 +174,6 @@ func (s Request) GetLocales() (LocaleResponse, error) {
 			return returnData, err
 		}
 
-		//err = commonErrors.WrapError(fmt.Errorf("[ERROR!] - Status=[%s] Reason=[%v]", resp.Status, reponse.Message))
 		err = commonErrors.WrapInvalidHttpReturnStatusWithMessageError(resp.Status, reponse.Message)
 		s.log(err.Error())
 		return LocaleResponse{Message: err.Error()}, err
@@ -196,7 +193,7 @@ func (s Request) GetLocales() (LocaleResponse, error) {
 	}
 	var returnData LocaleResponse
 	for _, v := range reponse.Locales {
-		s.log(fmt.Sprintf("Locale: [%v] Name: [%v]", v.Locale, v.Name))
+		//s.log(fmt.Sprintf("Locale: [%v] Name: [%v]", v.Locale, v.Name))
 		v.Locale, _ = htmlHelpers.FromPathSafe(v.Locale)
 		v.Name, _ = htmlHelpers.FromPathSafe(v.Name)
 		returnData.Locales = append(returnData.Locales, v)
