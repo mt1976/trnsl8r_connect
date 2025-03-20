@@ -101,6 +101,6 @@ func (s Request) WithFilter(filter Filter, value string) (Request, error) {
 
 func (s Request) WithLocale(locale string) (Request, error) {
 	var err error
-	s, err = s.WithFilter(LOCALE,value)
+	s, err = s.WithFilter(LOCALE, locale)
 	return s, err
 }
