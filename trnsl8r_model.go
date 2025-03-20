@@ -27,9 +27,19 @@ type APIResponse struct {
 	Message string `json:"message"`
 }
 
-// urlTemplate is a format string used to construct the URL for the translation service.
+// Locale response
+type LocaleResponse struct {
+	Locales []struct {
+		Locale string `json:"locale"`
+		Name   string `json:"name"`
+	} `json:"locales"`
+	Message string `json:"message"`
+}
+
+// urlTemplate_Translate is a format string used to construct the URL for the translation service.
 // It includes placeholders for the protocol, host, and port.
-var urlTemplate = "%v://%v:%d/trnsl8r/%v/%v"
+var urlTemplate_Translate = "%v://%v:%d/trnsl8r/%v/%v"
+var urlTemplate_Locales = "%v://%v:%d/locales"
 
 type Filter struct {
 	key   string

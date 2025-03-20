@@ -11,7 +11,7 @@ import (
 // Returns:
 // - string: The constructed URL string.
 func (s Request) String() string {
-	return fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port)
+	return fmt.Sprintf(urlTemplate_Translate, s.protocol, s.host, s.port)
 }
 
 func (t Response) String() string {

@@ -38,14 +38,14 @@ func (s *Request) Get(subject string) (Response, error) {
 	origSubject := subject
 	subject, _ = htmlHelpers.ToPathSafe(subject)
 	// Construct the full URL
-	base := fmt.Sprintf(urlTemplate, s.protocol, s.host, s.port, s.origin, subject)
+	base := fmt.Sprintf(urlTemplate_Translate, s.protocol, s.host, s.port, s.origin, subject)
 
 	xx, err := url.Parse(base)
 	if err != nil {
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
 	}
-	base = xx.String()
+	//base = xx.String()
 
 	//s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, base))
 
@@ -133,4 +133,74 @@ func (s *Request) Get(subject string) (Response, error) {
 // - Request: A new Request instance with logging disabled.
 func NewRequest() Request {
 	return Request{isCustomLogger: false, isLoggingActive: true}
+}
+
+func (s Request) GetLocales() (LocaleResponse, error) {
+
+	base := fmt.Sprintf(urlTemplate_Locales, s.protocol, s.host, s.port)
+
+	xx, err := url.Parse(base)
+	if err != nil {
+		s.log(err.Error())
+		return LocaleResponse{Message: err.Error()}, err
+	}
+
+	s.log(fmt.Sprintf("Request to fetch valid locales [%v]", xx.String()))
+
+	//os.Exit(0)
+
+	// Send the request via a client
+	var client http.Client
+	resp, err := client.Get(xx.String())
+	if err != nil {
+		s.log(err.Error())
+		return LocaleResponse{Message: err.Error()}, err
+	}
+	defer resp.Body.Close()
+
+	// Check if the response status is OK
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, err := io.ReadAll(resp.Body)
+		if err != nil {
+			s.log(err.Error())
+			return LocaleResponse{Message: err.Error()}, err
+		}
+		var reponse LocaleResponse
+		var returnData LocaleResponse
+		err = json.Unmarshal(bodyBytes, &reponse)
+		if err != nil {
+			s.log(err.Error())
+
+			returnData.Message = err.Error()
+
+			return returnData, err
+		}
+
+		//err = commonErrors.WrapError(fmt.Errorf("[ERROR!] - Status=[%s] Reason=[%v]", resp.Status, reponse.Message))
+		err = commonErrors.WrapInvalidHttpReturnStatusWithMessageError(resp.Status, reponse.Message)
+		s.log(err.Error())
+		return LocaleResponse{Message: err.Error()}, err
+	}
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		s.log(err.Error())
+		return LocaleResponse{Message: err.Error()}, err
+	}
+	var reponse LocaleResponse
+	err = json.Unmarshal(bodyBytes, &reponse)
+	if err != nil {
+		s.log(err.Error())
+		reponse.Message = err.Error()
+		return reponse, err
+	}
+	var returnData LocaleResponse
+	for _, v := range reponse.Locales {
+		s.log(fmt.Sprintf("Locale: [%v] Name: [%v]", v.Locale, v.Name))
+		v.Locale, _ = htmlHelpers.FromPathSafe(v.Locale)
+		v.Name, _ = htmlHelpers.FromPathSafe(v.Name)
+		returnData.Locales = append(returnData.Locales, v)
+	}
+	returnData.Message, _ = htmlHelpers.FromPathSafe(reponse.Message)
+	return returnData, nil
 }
