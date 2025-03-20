@@ -47,7 +47,7 @@ func (s *Request) Get(subject string) (Response, error) {
 	}
 	base = xx.String()
 
-	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, base))
+	//s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, base))
 
 	q := xx.Query()
 
@@ -65,12 +65,13 @@ func (s *Request) Get(subject string) (Response, error) {
 	xx.RawQuery = q.Encode()
 
 	//fmt.Printf("xx.String(): %v\n", xx.String())
+	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, xx.String()))
 
 	//os.Exit(0)
 
 	// Send the request via a client
 	var client http.Client
-	resp, err := client.Get(base)
+	resp, err := client.Get(xx.String())
 	if err != nil {
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
