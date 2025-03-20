@@ -104,3 +104,11 @@ func (s Request) WithLocale(locale string) (Request, error) {
 	s, err = s.WithFilter(LOCALE, locale)
 	return s, err
 }
+
+func (f Filter) Key() string {
+	return f.key
+}
+
+func (f Filter) Value() string {
+	return f.value
+}
