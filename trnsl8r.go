@@ -78,7 +78,7 @@ func (s *Request) Get(subject string) (Response, error) {
 	}
 	defer resp.Body.Close()
 
-	s.log(fmt.Sprintf("Response Status: [%v]", resp.Status))
+	//s.log(fmt.Sprintf("Response Status: [%v]", resp.Status))
 
 	// Check if the response status is OK
 	if resp.StatusCode != http.StatusOK {
