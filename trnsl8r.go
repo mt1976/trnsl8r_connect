@@ -201,3 +201,12 @@ func (s Request) GetLocales() (LocaleResponse, error) {
 	returnData.Message, _ = htmlHelpers.FromPathSafe(reponse.Message)
 	return returnData, nil
 }
+
+func (s *Request) Localise(subject, locale string) (Response, error) {
+
+	LCL := LOCALE
+	LCL.value = locale
+	// Forced localisation
+	s.filters = append(s.filters, LCL)
+	return s.Get(subject)
+}
