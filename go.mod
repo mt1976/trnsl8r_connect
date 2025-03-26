@@ -2,7 +2,7 @@ module github.com/mt1976/trnsl8r_connect
 
 go 1.24.0
 
-require github.com/mt1976/frantic-core v1.2.63
+require github.com/mt1976/frantic-core v1.2.67
 
 require (
 	github.com/BurntSushi/toml v1.5.0 // indirect
