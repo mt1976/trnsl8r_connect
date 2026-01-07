@@ -91,7 +91,7 @@ func (s Request) DisableLogging() Request {
 func (s Request) WithFilter(filter Filter, value string) (Request, error) {
 
 	if !slices.Contains(filters, filter) {
-		return s, commonErrors.WrapInvalidFilterError(nil, filter.key)
+		return s, commonErrors.ErrInvalidFilterWrapper(nil, filter.key)
 	}
 
 	s.filters = append(s.filters, Filter{key: filter.key, value: value})

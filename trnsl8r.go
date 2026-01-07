@@ -95,7 +95,7 @@ func (s *Request) Get(subject string) (Response, error) {
 		}
 
 		//err = commonErrors.WrapError(fmt.Errorf("[ERROR!] - Status=[%s] Reason=[%v]", resp.Status, reponse.Message))
-		err = commonErrors.WrapInvalidHttpReturnStatusWithMessageError(resp.Status, reponse.Message)
+		err = commonErrors.ErrInvalidHttpReturnStatusWithMessageWrapper(resp.Status, reponse.Message)
 		s.log(err.Error())
 		return Response{Information: reponse.Message}, err
 	}
@@ -174,7 +174,7 @@ func (s Request) GetLocales() (LocaleResponse, error) {
 			return returnData, err
 		}
 
-		err = commonErrors.WrapInvalidHttpReturnStatusWithMessageError(resp.Status, reponse.Message)
+		err = commonErrors.ErrInvalidHttpReturnStatusWithMessageWrapper(resp.Status, reponse.Message)
 		s.log(err.Error())
 		return LocaleResponse{Message: err.Error()}, err
 	}
