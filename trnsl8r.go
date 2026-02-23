@@ -27,7 +27,6 @@ import (
 // - Response: A struct containing the original message, translated message, and any additional information.
 // - error: An error if any issues occurred during the process.
 func (s *Request) Get(subject string) (Response, error) {
-
 	// Validate the request
 	err := s.Validate(subject)
 	if err != nil {
@@ -45,16 +44,16 @@ func (s *Request) Get(subject string) (Response, error) {
 		s.log(err.Error())
 		return Response{Information: err.Error()}, err
 	}
-	//base = xx.String()
+	// base = xx.String()
 
-	//s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, base))
+	// s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, base))
 
 	q := xx.Query()
 
-	//fmt.Printf("s.filters: %v\n", s.filters)
+	// fmt.Printf("s.filters: %v\n", s.filters)
 	// Add filters to the URL
 	for _, filter := range s.filters {
-		//fmt.Printf("filter: %v %v\n", filter.key, filter.value)
+		// fmt.Printf("filter: %v %v\n", filter.key, filter.value)
 		yy, err := htmlHelpers.ToPathSafe(filter.value)
 		if err != nil {
 			s.log(err.Error())
@@ -64,10 +63,10 @@ func (s *Request) Get(subject string) (Response, error) {
 	}
 	xx.RawQuery = q.Encode()
 
-	//fmt.Printf("xx.String(): %v\n", xx.String())
+	// fmt.Printf("xx.String(): %v\n", xx.String())
 	s.log(fmt.Sprintf("Request to translate message [%v] by [%v]", origSubject, xx.String()))
 
-	//os.Exit(0)
+	// os.Exit(0)
 
 	// Send the request via a client
 	var client http.Client
@@ -78,7 +77,7 @@ func (s *Request) Get(subject string) (Response, error) {
 	}
 	defer resp.Body.Close()
 
-	//s.log(fmt.Sprintf("Response Status: [%v]", resp.Status))
+	// s.log(fmt.Sprintf("Response Status: [%v]", resp.Status))
 
 	// Check if the response status is OK
 	if resp.StatusCode != http.StatusOK {
@@ -94,7 +93,7 @@ func (s *Request) Get(subject string) (Response, error) {
 			return Response{Original: subject, Translated: subject, Information: err.Error()}, err
 		}
 
-		//err = commonErrors.WrapError(fmt.Errorf("[ERROR!] - Status=[%s] Reason=[%v]", resp.Status, reponse.Message))
+		// err = commonErrors.WrapError(fmt.Errorf("[ERROR!] - Status=[%s] Reason=[%v]", resp.Status, reponse.Message))
 		err = commonErrors.ErrInvalidHttpReturnStatusWithMessageWrapper(resp.Status, reponse.Message)
 		s.log(err.Error())
 		return Response{Information: reponse.Message}, err
@@ -128,6 +127,14 @@ func (s *Request) Get(subject string) (Response, error) {
 	return translated, nil
 }
 
+func (s Request) Translate(subject string) (Response, error) {
+	return s.Get(subject)
+}
+
+func (s Request) TEXT(subject string) (Response, error) {
+	return s.Get(subject)
+}
+
 // NewRequest creates a new Request instance with default values for logging configuration.
 // Returns:
 // - Request: A new Request instance with logging disabled.
@@ -136,7 +143,6 @@ func NewRequest() Request {
 }
 
 func (s Request) GetLocales() (LocaleResponse, error) {
-
 	base := fmt.Sprintf(urlTemplate_Locales, s.protocol, s.host, s.port)
 
 	xx, err := url.Parse(base)
@@ -193,7 +199,7 @@ func (s Request) GetLocales() (LocaleResponse, error) {
 	}
 	var returnData LocaleResponse
 	for _, v := range reponse.Locales {
-		//s.log(fmt.Sprintf("Locale: [%v] Name: [%v]", v.Locale, v.Name))
+		// s.log(fmt.Sprintf("Locale: [%v] Name: [%v]", v.Locale, v.Name))
 		v.Locale, _ = htmlHelpers.FromPathSafe(v.Locale)
 		v.Name, _ = htmlHelpers.FromPathSafe(v.Name)
 		returnData.Locales = append(returnData.Locales, v)
@@ -203,7 +209,6 @@ func (s Request) GetLocales() (LocaleResponse, error) {
 }
 
 func (s *Request) Localise(subject, locale string) (Response, error) {
-
 	LCL := LOCALE
 	LCL.value = locale
 	// Forced localisation
